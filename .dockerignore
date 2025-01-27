@@ -1,0 +1,40 @@
+# Byte-compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment directory
+venv/
+.env/
+*.env
+
+# Local settings or secrets
+settings_local.py
+
+# Development artifacts
+*.log
+*.sqlite3
+*.db
+
+# Node modules (if using frontend assets)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Static files collected by collectstatic (already handled in Dockerfile)
+static/
+
+# Media files (optional, depending on your setup)
+media/
+
+# IDE files
+.idea/
+.vscode/
+
+# Git
+.git/
+.gitignore
+
+# Docker-related files (exclude the ones inside Docker context)
+Dockerfile.*
+docker-compose.yml
