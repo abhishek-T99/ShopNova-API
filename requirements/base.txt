@@ -1,4 +1,15 @@
+cryptography
 Django==4.2.1
+django-allauth
+django-phonenumber-field
 djangorestframework==3.14.0
+djangorestframework-simplejwt
+django-countries
+dj-rest-auth
+phonenumbers
+Pillow
 psycopg2-binary
 python-decouple
+PyJWT
+tzdata
+requests

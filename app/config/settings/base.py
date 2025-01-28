@@ -27,18 +27,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Third-party apps
+    # Third party apps
     "django.contrib.sites",
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
-    "dj_rest_auth.registration",
     "allauth",
-    "drf_spectacular",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "dj_rest_auth.registration",
     "phonenumber_field",
+    "drf_spectacular",
     # Local apps
     "core",
     "users",
@@ -79,12 +79,49 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SITE_ID = 1
+
+REST_USE_JWT = True
+
+# JWT_AUTH_COOKIE = "phonenumber-auth"
+# JWT_AUTH_REFRESH_COOKIE = "phonenumber-refresh-token"
+
+# Account Email Verification Settings
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+# Email Settings
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config("EMAIL_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
+
+# DRF Spectacular Settings
 SPECTACULAR_SETTINGS = {
     "TITLE": "ShopNova API",
     "DESCRIPTION": "This is an E-commerce Platform API.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+# Authentication
+AUTHENTICATION_BACKENDS = [
+    "users.backends.phone_backend.PhoneNumberAuthBackend",
+    "users.backends.email_backend.EmailAuthBackend",
+]
+
+# Phone number field
+PHONENUMBER_DEFAULT_REGION = "ET"
+
+# Token length for OTP
+TOKEN_LENGTH = 6
+
+# Token expiry
+TOKEN_EXPIRE_MINUTES = 3
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

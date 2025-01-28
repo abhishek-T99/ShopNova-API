@@ -4,7 +4,7 @@ from rest_framework import status
 from drf_spectacular.utils import extend_schema
 
 
-@extend_schema(request=None, responses={200: {"healthy": "boolean"}})
+@extend_schema(request=None, responses={200: {"healthy": "boolean"}}, tags=["Health Check"])
 class HealthCheckView(GenericAPIView):
     """
     Health check endpoint to verify that the service is running.
