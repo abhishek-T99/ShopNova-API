@@ -1,4 +1,4 @@
-FROM python:3.10-alpine3.21
+FROM python:3.10.2-alpine
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -11,7 +11,6 @@ WORKDIR /app
 EXPOSE 8000
 
 RUN python -m venv /py
-RUN /py/bin/pip install --upgrade pip
 
 RUN apk add --update --no-cache postgresql-client
 RUN apk add --update --no-cache --virtual .tmp-build-deps

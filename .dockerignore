@@ -23,9 +23,11 @@ yarn-error.log
 
 # Static files collected by collectstatic (already handled in Dockerfile)
 static/
+staticfiles/
 
 # Media files (optional, depending on your setup)
 media/
+mediafiles/
 
 # IDE files
 .idea/
