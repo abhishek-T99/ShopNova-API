@@ -52,7 +52,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -76,6 +75,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("dj_rest_auth.jwt_auth.JWTCookieAuthentication",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
@@ -83,8 +83,8 @@ SITE_ID = 1
 
 REST_USE_JWT = True
 
-# JWT_AUTH_COOKIE = "phonenumber-auth"
-# JWT_AUTH_REFRESH_COOKIE = "phonenumber-refresh-token"
+JWT_AUTH_COOKIE = "phonenumber-auth"
+JWT_AUTH_REFRESH_COOKIE = "phonenumber-refresh-token"
 
 # Account Email Verification Settings
 ACCOUNT_EMAIL_REQUIRED = True

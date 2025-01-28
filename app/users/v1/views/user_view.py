@@ -22,7 +22,7 @@ from users.v1.serializers.user_serializer import (
     UserLoginSerializer,
     UserRegistrationSerializer,
     UserSerializer,
-    VerifyPhoneNumberSerialzier,
+    VerifyPhoneNumberSerializer,
 )
 
 User = get_user_model()
@@ -36,12 +36,15 @@ class UserRegisterationAPIView(RegisterView):
     serializer_class = UserRegistrationSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = UserRegistrationSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
 
-        email = serializer.validated_data.get("email")
-        phone_number = serializer.validated_data.get("phone_number")
+        response_data = ""
+
+        email = request.data.get("email", None)
+        phone_number = request.data.get("phone_number", None)
 
         if email and phone_number:
             res = SendOrResendSMSAPIView.as_view()(request._request, *args, **kwargs)
@@ -77,39 +80,21 @@ class SendOrResendSMSAPIView(GenericAPIView):
     serializer_class = PhoneNumberSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = PhoneNumberSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        serializer = self.get_serializer(data=request.data)
 
-        phone_number = serializer.validated_data["phone_number"]
-        user = User.objects.filter(phone__phone_number=phone_number).first()
+        if serializer.is_valid():
+            # Send OTP
+            phone_number = str(serializer.validated_data["phone_number"])
 
-        if user:
+            user = User.objects.filter(phone__phone_number=phone_number).first()
+
             sms_verification = PhoneNumber.objects.filter(user=user, is_verified=False).first()
-            if sms_verification:
-                sms_verification.send_confirmation()
-                return Response({"detail": "OTP sent successfully."}, status=status.HTTP_200_OK)
 
-        return Response(
-            {"detail": "User not found or phone number already verified."},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+            sms_verification.send_confirmation()
 
+            return Response(status=status.HTTP_200_OK)
 
-        # if serializer.is_valid():
-        #     # Send OTP
-        #     phone_number = str(serializer.validated_data["phone_number"])
-
-        #     user = User.objects.filter(phone__phone_number=phone_number).first()
-
-        #     sms_verification = PhoneNumber.objects.filter(user=user, is_verified=False).first()
-
-        #     sms_verification.send_confirmation()
-
-        #     return Response(status=status.HTTP_200_OK)
-
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class VerifyPhoneNumberAPIView(GenericAPIView):
@@ -117,7 +102,7 @@ class VerifyPhoneNumberAPIView(GenericAPIView):
     Check if submitted phone number and OTP matches and verify the user.
     """
 
-    serializer_class = VerifyPhoneNumberSerialzier
+    serializer_class = VerifyPhoneNumberSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

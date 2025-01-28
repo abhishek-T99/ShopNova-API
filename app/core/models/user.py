@@ -42,7 +42,7 @@ class PhoneNumber(BaseModel):
 
     def send_confirmation(self):
         self.security_code = self.generate_security_code()
-        
+
         print(f"Your activation code for phone number {self.phone_number} is {self.security_code}")
 
         self.sent = timezone.now()

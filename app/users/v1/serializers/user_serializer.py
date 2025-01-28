@@ -144,7 +144,7 @@ class PhoneNumberSerializer(serializers.ModelSerializer):
         return value
 
 
-class VerifyPhoneNumberSerialzier(serializers.Serializer):
+class VerifyPhoneNumberSerializer(serializers.Serializer):
     """
     Serializer class to verify OTP.
     """
