@@ -16,10 +16,19 @@
                   with:
                     username: ${{ secrets.DOCKERHUB_USER }}
                     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
                 - name: Checkout
                   uses: actions/checkout@v2
+
+                - name: Set up environment variables
+                  run: |
+                    echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+                    echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+                    echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
                 - name: Test
                   run: docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
+                  
                 - name: Lint and Format
                   run: |
                     docker compose run --rm --user $(id -u):$(id -g) app sh -c "black ."
