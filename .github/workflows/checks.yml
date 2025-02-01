@@ -25,7 +25,7 @@
                     echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
                     echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
                     echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-                    echo "DJANGO_SETTINGS_MODULE"=${{ secrets.DJANGO_SETTINGS_MODULE }} >> .env
+                    echo "DJANGO_SETTINGS_MODULE"=${{ vars.DJANGO_SETTINGS_MODULE }} >> .env
                     echo "EMAIL_USER"=${{ secrets.EMAIL_USER }} >> .env
                     echo "EMAIL_PASSWORD"=${{ secrets.EMAIL_PASSWORD }} >> .env
 
