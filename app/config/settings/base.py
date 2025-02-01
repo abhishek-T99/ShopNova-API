@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from decouple import Csv, config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -129,11 +130,11 @@ TOKEN_EXPIRE_MINUTES = 3
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USERNAME"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOSTNAME"),
-        "PORT": config("DB_PORT", cast=int),
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USERNAME"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOSTNAME"),
+        "PORT": os.environ.get("DB_PORT", cast=int),
     }
 }
 
