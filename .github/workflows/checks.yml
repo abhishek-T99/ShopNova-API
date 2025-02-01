@@ -22,6 +22,7 @@
 
                 - name: Set up environment variables
                   run: |
+                    echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
                     echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
                     echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
                     echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
